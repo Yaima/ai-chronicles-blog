@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Listing from '../../../components/Listing.astro';
+import { CATEGORY_ORDER, slugifyCategory } from '../../../categories';
+
+export async function getStaticPaths({ paginate }: any) {
+  const posts = (await getCollection('posts')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+  const cats = CATEGORY_ORDER.filter((c) => posts.some((p) => p.data.category === c));
+  return cats.flatMap((cat) => {
+    const slug = slugifyCategory(cat);
+    const filtered = posts.filter((p) => p.data.category === cat);
+    return paginate(filtered, { params: { category: slug }, pageSize: 12 });
+  });
+}
+
+const { page } = Astro.props;
+const { category } = Astro.params;
+const name = CATEGORY_ORDER.find((c) => slugifyCategory(c) === category) ?? 'Posts';
+---
+<BaseLayout title={name} description={`${name} — posts from AI Chronicles.`}>
+  <Listing page={page} current={category} />
+</BaseLayout>

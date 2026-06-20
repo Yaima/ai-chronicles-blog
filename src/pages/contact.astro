@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { WEB3FORMS_ACCESS_KEY } from '../consts';
+---
+<BaseLayout title="Contact" description="Get in touch with Yaima Valdivia.">
+  <main class="container contact-page">
+    <h1 class="page-title">Contact Me</h1>
+    <p class="contact-intro">Have a question, an idea, or just want to say hi? Drop me a note.</p>
+
+    <form id="contact-form" class="contact-form">
+      <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+      <input type="hidden" name="subject" value="New message from AI Chronicles" />
+      <input type="hidden" name="from_name" value="AI Chronicles" />
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+
+      <label class="field">
+        <span class="field__label">Name <em>*</em></span>
+        <input type="text" name="name" required />
+      </label>
+      <label class="field">
+        <span class="field__label">Email <em>*</em></span>
+        <input type="email" name="email" required />
+      </label>
+      <label class="field">
+        <span class="field__label">Message</span>
+        <textarea name="message" rows="6"></textarea>
+      </label>
+
+      <button type="submit">Send Message</button>
+      <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('contact-status');
+  if (form && status) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const key = data.get('access_key');
+      if (!key || key === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+        status.textContent =
+          'Contact form is not configured yet — add a Web3Forms key to enable it.';
+        return;
+      }
+      status.textContent = 'Sending…';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        const json = await res.json();
+        if (json.success) {
+          status.textContent = 'Thank you for reaching out!';
+          form.reset();
+        } else {
+          status.textContent = json.message || 'Something went wrong. Please try again.';
+        }
+      } catch {
+        status.textContent = 'Network error. Please try again.';
+      }
+    });
+  }
+</script>

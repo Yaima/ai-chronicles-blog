@@ -1,0 +1,33 @@
+---
+import { AUTHOR } from '../consts';
+import { formatDate } from '../utils';
+import { slugifyCategory } from '../categories';
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  readTime: string;
+  heroImage: string;
+  category?: string;
+}
+const { slug, title, description, pubDate, readTime, heroImage, category } = Astro.props;
+const url = `/post/${slug}`;
+---
+<article class="card">
+  <a class="card__media" href={url} tabindex="-1" aria-hidden="true">
+    <img src={heroImage} alt={title} loading="lazy" />
+  </a>
+  <div class="card__body">
+    {category && <a class="card__cat" href={`/category/${slugifyCategory(category)}`}>{category}</a>}
+    <h2 class="card__title"><a href={url}>{title}</a></h2>
+    <p class="card__excerpt">{description}</p>
+    <div class="card__author">
+      <img class="card__avatar" src="/images/profile.webp" alt={AUTHOR} loading="lazy" />
+      <div class="card__authormeta">
+        <span class="card__name">{AUTHOR}</span>
+        <span class="card__date">{formatDate(pubDate)} · {readTime}</span>
+      </div>
+    </div>
+  </div>
+</article>

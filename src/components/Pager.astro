@@ -1,0 +1,23 @@
+---
+interface Props {
+  current: number;
+  last: number;
+  basePath: string; // "/" for all posts, "/category/<slug>" for a category
+}
+const { current, last, basePath } = Astro.props;
+const url = (n: number) => (n === 1 ? basePath : basePath === '/' ? `/${n}` : `${basePath}/${n}`);
+const pages = Array.from({ length: last }, (_, i) => i + 1);
+---
+{last > 1 && (
+  <nav class="pager" aria-label="Pagination">
+    <a class={`pager__arrow${current === 1 ? ' is-disabled' : ''}`} href={current === 1 ? undefined : url(current - 1)} aria-label="Previous page">←</a>
+    {pages.map((n) =>
+      n === current ? (
+        <span class="pager__num is-active" aria-current="page">{n}</span>
+      ) : (
+        <a class="pager__num" href={url(n)}>{n}</a>
+      )
+    )}
+    <a class={`pager__arrow${current === last ? ' is-disabled' : ''}`} href={current === last ? undefined : url(current + 1)} aria-label="Next page">→</a>
+  </nav>
+)}

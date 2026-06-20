@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR, SOCIAL } from '../consts';
+---
+<BaseLayout title="About" description="Explore the world of Artificial Intelligence with Yaima Valdivia.">
+  <main class="container about-page">
+    <h1 class="page-title">About Me</h1>
+    <img class="about__photo" src="/images/profile.webp" alt={AUTHOR} />
+    <div class="about-bio">
+      <p>Hey! I'm Yaima Valdivia, a software engineer and founder.</p>
+      <p>
+        I have an MS in Computer Science from Georgia Tech, where I specialized
+        in Artificial Intelligence. Since then I've worked on agentic AI and how
+        it behaves in the wild, with a focus on keeping systems secure.
+      </p>
+      <p>
+        When I'm not writing code, I'm usually behind a camera.
+        <a href={SOCIAL.instagram} target="_blank" rel="noopener">Photography</a>
+        keeps me sane.
+      </p>
+      <p>
+        I like to know why things work. So I poke at the edges of what's
+        possible, in engineering, in photography, and in late-night conversations
+        about consciousness and computation.
+      </p>
+      <p>
+        I write this blog to think out loud about what's happening in tech. No
+        gatekeeping, no pretending I have all the answers.
+      </p>
+      <p>
+        Whether you're debugging your first Python script or you've been shipping
+        code since dial-up, I hope something here makes you go "huh, hadn't
+        thought of it that way."
+      </p>
+      <p>
+        Tech gets more interesting when we work it out together. If AI, computer
+        science, cognitive science, or anything nearby is your thing, stick
+        around.
+      </p>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BlogCard from './BlogCard.astro';
+import Pager from './Pager.astro';
+import { CATEGORY_ORDER, slugifyCategory } from '../categories';
+
+interface Props {
+  page: any;        // Astro paginate Page object
+  current?: string; // active category slug, '' for All Posts
+}
+const { page, current = '' } = Astro.props;
+
+const all = await getCollection('posts');
+const counts = new Map<string, number>();
+all.forEach((p) => counts.set(p.data.category, (counts.get(p.data.category) || 0) + 1));
+const cats = CATEGORY_ORDER.filter((c) => counts.has(c)).map((c) => ({
+  name: c,
+  slug: slugifyCategory(c),
+}));
+
+const basePath = current ? `/category/${current}` : '/';
+---
+<div class="listing container">
+  <aside class="rail">
+    <p class="rail__tagline">Notes on AI, agents, and building software.</p>
+    <nav class="rail__cats" aria-label="Categories">
+      <a class={`rail__cat${current === '' ? ' is-active' : ''}`} href="/">All Posts</a>
+      {cats.map((c) => (
+        <a class={`rail__cat${current === c.slug ? ' is-active' : ''}`} href={`/category/${c.slug}`}>{c.name}</a>
+      ))}
+    </nav>
+  </aside>
+
+  <div class="listing__main">
+    <div class="card-grid">
+      {page.data.map((post: any) => (
+        <BlogCard
+          slug={post.id}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          readTime={post.data.readTime}
+          heroImage={post.data.heroImage}
+          category={post.data.category}
+        />
+      ))}
+    </div>
+    <Pager current={page.currentPage} last={page.lastPage} basePath={basePath} />
+  </div>
+</div>
