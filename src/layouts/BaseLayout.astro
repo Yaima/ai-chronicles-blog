@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
+import { SITE_TITLE, SITE_TITLE_FULL, SITE_DESCRIPTION, AUTHOR } from '../consts';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -18,7 +18,7 @@ const {
   type = 'website',
 } = Astro.props;
 
-const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const pageTitle = title ? `${SITE_TITLE} | ${title}` : SITE_TITLE_FULL;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
 const siteUrl = new URL('/', Astro.site).href;
@@ -55,16 +55,16 @@ const websiteSchema = {
     <!-- Open Graph -->
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={SITE_TITLE} />
-    <meta property="og:title" content={title ?? SITE_TITLE} />
+    <meta property="og:title" content={title ?? SITE_TITLE_FULL} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content={title ?? SITE_TITLE} />
+    <meta property="og:image:alt" content={title ?? SITE_TITLE_FULL} />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title ?? SITE_TITLE} />
+    <meta name="twitter:title" content={title ?? SITE_TITLE_FULL} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 

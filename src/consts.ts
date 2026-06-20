@@ -2,6 +2,8 @@
 // Edit these values once and they apply everywhere.
 
 export const SITE_TITLE = 'AI Chronicles';
+// Shown as the browser tab title on the home page (and as the default title).
+export const SITE_TITLE_FULL = 'AI Chronicles | Blog';
 export const SITE_DESCRIPTION =
   'AI Chronicles | Explore the world of AI with Yaima Valdivia.';
 export const AUTHOR = 'Yaima Valdivia';
