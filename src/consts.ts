@@ -22,6 +22,8 @@ export const BUTTONDOWN_USERNAME = 'yaimavaldivia';
 
 // --- Social links (optional, shown in footer) ----------------------------
 export const SOCIAL = {
+  github: 'https://github.com/Yaima',
+  linkedin: 'https://www.linkedin.com/in/yaimavaldivia/',
   instagram: 'https://www.instagram.com/yaima/',
   email: 'mailto:yaimamvaldivia@gmail.com',
 };
